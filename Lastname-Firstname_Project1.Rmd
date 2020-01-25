@@ -7,6 +7,9 @@ output:
   html_document: default
 ---
 
+# If you want to disable inline preview of the Markdown file:
+## In RStudio, Tools > Global Options... > R Markdown > Show equations and Image previews (Never)
+
 ```{r Chunk setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
