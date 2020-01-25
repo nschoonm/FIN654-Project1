@@ -62,7 +62,7 @@ if(dir.exists(paste(getwd(),"/data", sep = "")) == FALSE) {
 
 ### Supply chain managers at our company continue to note we have a significant exposure to heating oil prices (Heating Oil No. 2, or HO2), specifically New York Harbor. The exposure hits the variable cost of producing several products. When HO2 is volatile, so is earnings. Our company has missed earnings forecasts for five straight quarters. To get a handle on HO2 we download this data set and review some basic aspects of the prices. 
 
-```{r eval = FALSE}
+```{r Read in CSV data}
 # Read in data
 # package EIAdata
 #
@@ -78,7 +78,7 @@ str(HO2) # review the structure of the data so far
 
 ## 1. What is the nature of HO2 returns? We want to reflect the ups and downs of price movements, something of prime interest to management. First, we calculate percentage changes as log returns. Our interest is in the ups and downs. To look at that we use `if` and `else` statements to define a new column called `direction`. We will build a data frame to house this analysis.
 
-```{r eval = FALSE}
+```{r Construct Data frame}
 # Construct expanded data frame
 return <- as.numeric(diff(log(HO2$DHOILNYH))) * 100 # Euler 
 size <- as.numeric(abs(return)) # size is indicator of volatility
@@ -92,7 +92,7 @@ str(HO2.df)
 
 ### We can plot with the `ggplot2` package. In the `ggplot` statements we use `aes`, "aesthetics", to pick `x` (horizontal) and `y` (vertical) axes. Use `group =1` to ensure that all data is plotted. The added (`+`) `geom_line` is the geometrical method that builds the line plot.
 
-```{r echo = TRUE, eval = FALSE}
+```{r Plot line graph}
 library(ggplot2)
 p <- ggplot(HO2.df, aes(x = date, y = return, group = 1)) + geom_line(colour = "blue")
 p
@@ -100,7 +100,7 @@ p
 
 ### Let's try a bar graph of the absolute value of price rates. We use `geom_bar` to build this picture.
 
-```{r echo = TRUE, eval = FALSE}
+```{r Plot bar graph}
 # library(ggplot2)
 p <- ggplot(HO2.df, aes(x = date, y = size, group = 1)) + geom_bar(stat = "identity", colour = "green")
 p
@@ -108,14 +108,14 @@ p
 
 ### Now let's build an overlay of `return` on `size`.
 
-```{r echo = TRUE, eval = FALSE}
+```{r Plot line and bar graph}
 p <- ggplot(HO2.df, aes(date, size)) + geom_bar(stat = "identity", colour = "darkorange") + geom_line(data = HO2.df, aes(date, return), colour = "blue")
 p
 ```
 
 ## 2. Let's dig deeper and compute mean, standard deviation, etc. Load the `data_moments()` function. Run the function using the `HO2.df$return` subset of the data and write a `knitr::kable()` report.
 
-```{r echo = TRUE, eval = FALSE}
+```{r Create data_moments function and run it}
 # Load the data_moments() function
 ## data_moments function
 ## INPUTS: vector
@@ -139,7 +139,7 @@ knitr::kable(answer)
 
 ## 3. Let's pivot `size` and `return` on `direction`. What is the average and range of returns by direction? How often might we view positive or negative movements in HO2?
 
-```{r echo = TRUE, eval = FALSE}
+```{r Create pivot table}
 # Counting
 table(HO2.df$return < 0) # one way
 table(HO2.df$return > 0)
@@ -177,7 +177,7 @@ print(xtable(answer), digits = 2)
 
 ### 1. How can we show the differences in the shape of ups and downs in HO2, especially given our tolerance for risk? We can use the `HO2.df` data frame with `ggplot2` and the cumulative relative frequency function `stat_ecdf` to begin to understand this data.
 
-```{r echo = TRUE, eval = FALSE}
+```{r Plot data to observe shape}
 HO2.tol.pct <- 0.95
 HO2.tol <- quantile(HO2.df$return, HO2.tol.pct)
 HO2.tol.label <- paste("Tolerable Rate = ", round(HO2.tol, 2), sep = "")
@@ -186,7 +186,7 @@ ggplot(HO2.df, aes(return, fill = direction)) + stat_ecdf(colour = "blue", size 
 
 ### 2. How can we regularly, and reliably, analyze HO2 price movements? For this requirement, let's write a function similar to `data_moments`. Name this new function `HO2_movement()`.
 
-```{r echo = TRUE, echo = TRUE}
+```{r Create HO2_movement function}
 ## HO2_movement(file, caption)
 ## input: HO2 csv file from /data directory
 ## output: result for input to kable in $table and xtable in $xtable; 
@@ -223,7 +223,7 @@ return(output.list)
 ```
 
 ### Test `HO2_movement()` with data and display results in a table with `2` decimal places.
-```{r echo = TRUE, eval = FALSE}
+```{r Run HO2_movement function}
 knitr::kable(HO2_movement(file = "data/nyhh02.csv")$table, digits = 2)
 ```
 
@@ -231,7 +231,7 @@ knitr::kable(HO2_movement(file = "data/nyhh02.csv")$table, digits = 2)
 
 ## 3. Suppose we wanted to simulate future movements in HO2 returns. What distribution might we use to run those scenarios? Here, let's use the `MASS` package's `fitdistr()` function to find the optimal fit of the HO2 data to a parametric distribution. We will use the `gamma` distribution to simulate future heating oil \#2 price scenarios.
 
-```{r echo = TRUE, eval = FALSE}
+```{r Observe the distribution}
 library(MASS)
 HO2.data <- HO2_movement(file = "data/nyhh02.csv", caption = "HO2 NYH")$df
 str(HO2.data)
