@@ -13,16 +13,32 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r Packages}
 # Install packages
-install.packages("xtable")
-install.packages("dplyr")
-require(xtable)
-require(dplyr)
+#install.packages("xtable")
+#install.packages("dplyr")
+#install.packages("rstudioapi")
+library(xtable)
+library(dplyr)
+library(rstudioapi)
+```
+
+```{r Get current directory}
+# Get the directory so we can run this from anywhere
+# Get the script directory from R when running in R
+script.path <- rstudioapi::getActiveDocumentContext()$path
+(script.path)
+script.dir <- dirname(script.path)
+if(!dir.exists(script.dir))
+{
+  # Get the script directory from the command line if running outside of R
+  script.dir <- dirname(sys.frame(1)$ofile)
+}
+(script.dir)
 ```
 
 ```{r Working Directory and Data setup}
 # Set my working directory
-# There is a "data" folder here with the files
-setwd("C:/Users/Schoon/Documents/R")
+# There is a "data" folder here with the files and the script
+setwd(script.dir)
 # Double check the working directory
 getwd()
 # Error check to ensure the working directory is set up and the data directory exists inside it.  Its required for this file
