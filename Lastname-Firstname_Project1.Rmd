@@ -99,6 +99,7 @@ HO2.df <- na.omit(data.frame(date = date, price = price, return = return, size =
 str(HO2.df)
 nrow(HO2.df) # num data points
 ncol(HO2.df) # 5, date, price, return, size, direction
+dim(HO2.df) # both, num rows then num cols
 ``` 
 
 ### We can plot with the `ggplot2` package. In the `ggplot` statements we use `aes`, "aesthetics", to pick `x` (horizontal) and `y` (vertical) axes. Use `group =1` to ensure that all data is plotted. The added (`+`) `geom_line` is the geometrical method that builds the line plot.
