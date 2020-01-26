@@ -39,10 +39,10 @@ vignettes/*.pdf
 .Renviron
 
 # PDF
-.pdf
+*.pdf
 
 # Logs
-.log
+*.log
 
 # DOCX
-.docx
+*.docx
