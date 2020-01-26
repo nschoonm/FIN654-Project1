@@ -1,12 +1,13 @@
 ---
 title: "Lastname-Firstname_Project1"
-author: 
-- "Guillermo Delgado"
-- "Katie Guillen"
-- "Leanne Harper"
-- "Nicolas Schoonmaker"
+author:
+- Guillermo Delgado
+- Katie Guillen
+- Leanne Harper
+- Nicolas Schoonmaker
 date: "1/25/2020"
 output:
+  word_document: default
   pdf_document: default
   html_document: default
 ---
