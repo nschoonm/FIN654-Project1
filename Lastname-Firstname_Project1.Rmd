@@ -54,6 +54,13 @@ if(dir.exists(paste(getwd(),"/data", sep = "")) == FALSE) {
 }
 ```
 
+```{r View some command info}
+# See some help command info
+??read.csv
+??head
+??na.omit
+```
+
 # Part 1
 
 ### In this set we will build a data set using filters and `if` and `diff` statements. We will then answer some questions using plots and a pivot table report. We will then write a function to house our approach in case we would like to run the same analysis on other data sets.
