@@ -96,10 +96,15 @@ direction <- ifelse(return > 0, "up", ifelse(return < 0, "down", "same")) # anot
 date <- as.Date(HO2$DATE[-1], "%m/%d/%Y") # length of DATE is length of return +1: omit 1st observation
 price <- as.numeric(HO2$DHOILNYH[-1]) # length of DHOILNYH is length of return +1: omit first observation
 HO2.df <- na.omit(data.frame(date = date, price = price, return = return, size = size, direction = direction)) # clean up data frame by omitting NAs
+```
+
+```{r View data size and content}
 str(HO2.df)
 nrow(HO2.df) # num data points
 ncol(HO2.df) # 5, date, price, return, size, direction
 dim(HO2.df) # both, num rows then num cols
+hist(price) # histogram the price
+axis(side=1, at=seq(0,4,1), labels=seq(0,4,1))
 ``` 
 
 ### We can plot with the `ggplot2` package. In the `ggplot` statements we use `aes`, "aesthetics", to pick `x` (horizontal) and `y` (vertical) axes. Use `group =1` to ensure that all data is plotted. The added (`+`) `geom_line` is the geometrical method that builds the line plot.
