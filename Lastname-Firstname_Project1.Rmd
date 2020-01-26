@@ -25,6 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #install.packages("xtable")
 #install.packages("dplyr")
 #install.packages("rstudioapi")
+#tinytex::install_tinytex()
 library(xtable)
 library(dplyr)
 library(rstudioapi)
@@ -286,3 +287,6 @@ We can see from the summary statistics that our data is highly skewed with most 
 
 ### Business Remarks
 We used a model that fit the gamma distribution which allows for the skew and the heavy tail that is in our data set.  This model is especially useful for time-sensitive material.  To help combat our exposure of variable costs we would need to put a procedure in place that requires upper managements approval when there are costs rise above our tolerable rate of 3.6.  
+
+
+
