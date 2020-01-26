@@ -276,13 +276,7 @@ The following methods & packages in R were used to explore the data;
 8. We also used our statistical analysis methods to summarize and draw conclusions from the data
 
 ### Data Insights
-:
-(REPLACE text here)
-Resaearch global events in financial markets. Study the graphs the tables produced - can you relate the events?
-:
+We can see from the summary statistics that our data is highly skewed with most of the extreme data below the median. The kurtosis helps us determine that our data is heavily tailed in the negative returns.  If we look at all the data that we observed there are only 279 instances where there was no change in direction which indicates that heating oil is a volatile commodity.  We can see from the graphs that there is extreme volatility in both the early 1990’s and 2000.  The extreme fluctuation in the early 1990’s was due to the invasion of Kuwait followed by the Gulf War which created a major supply shock that led to a sharp increase in price of oil.  In 2000 the high fluctuation may have been due to a decision by OPEC members to curb production in 1999 to reverse the preceding years decline in prices. 
 
 ### Business Remarks
-:
-(REPLACE text here)
-What can we say about the models we used for the data fit?
-What can we do about the exposure that hits the variable cost of producing several products?
+We used a model that fit the gamma distribution which allows for the skew and the heavy tail that is in our data set.  This model is especially useful for time-sensitive material.  To help combat our exposure of variable costs we would need to put a procedure in place that requires upper managements approval when there are costs rise above our tolerable rate of 3.6.  
