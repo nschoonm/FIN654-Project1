@@ -76,6 +76,8 @@ if(dir.exists(paste(getwd(),"/data", sep = "")) == FALSE) {
 HO2 <- read.csv("data/nyhh02.csv", header = T, stringsAsFactors = F)
 # stringsAsFactors sets dates as character type
 head(HO2)
+head(HO2, n = 10)
+tail(HO2, n = 10)
 HO2 <- na.omit(HO2) ## to clean up any missing data
 # use na.approx() as well
 str(HO2) # review the structure of the data so far
