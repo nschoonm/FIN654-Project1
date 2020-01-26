@@ -1,6 +1,10 @@
 ---
-title: "Schoonmaker-Nicolas_Project1"
-author: "Nicolas Schoonmaker"
+title: "Lastname-Firstname_Project1"
+author: 
+- "Guillermo Delgado"
+- "Katie Guillen"
+- "Leanne Harper"
+- "Nicolas Schoonmaker"
 date: "1/25/2020"
 output:
   pdf_document: default
