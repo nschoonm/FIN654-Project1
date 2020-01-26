@@ -260,3 +260,29 @@ fit.t.down
 fit.gamma.down <- fitdistr(-HO2.data[HO2.data$direction == "down", "return"], "gamma", hessian = TRUE) # gamma distribution defined for data >= 0
 fit.gamma.down
 ```
+
+## Conclusion
+
+### Skills and Tools
+
+The following methods & packages in R were used to explore the data;
+1. We used "if" and "else" statements to define a new column called "direction" and then created a data frame to house this analysis.
+2. We used the ggplot package to plot our data so that we could visualize the size and returns
+3. We used the data moments function to find the standard deviation, mean, skewness and kurtosis
+4. We used the knitr package to format the data moments function into a table
+5. We used the table function to pivot size and return on direction
+6. We used the dplyr to filter to show results for how often we might observe fluctuations in the movements of HO2
+7. We used the MASS package to find the optimal fit of the HO2 data
+8. We also used our statistical analysis methods to summarize and draw conclusions from the data
+
+### Data Insights
+:
+(REPLACE text here)
+Resaearch global events in financial markets. Study the graphs the tables produced - can you relate the events?
+:
+
+### Business Remarks
+:
+(REPLACE text here)
+What can we say about the models we used for the data fit?
+What can we do about the exposure that hits the variable cost of producing several products?
