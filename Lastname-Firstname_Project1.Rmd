@@ -12,15 +12,18 @@ output:
   html_document: default
 ---
 
-# Using RMD from: https://github.com/wgfoote/fin-alytics/blob/master/RMD/PR01-Rstartup-HO2.Rmd
+# Setup
+## Using RMD from: https://github.com/wgfoote/fin-alytics/blob/master/RMD/PR01-Rstartup-HO2.Rmd
 
-# If you want to disable inline preview of the Markdown file:
-## In RStudio, Tools > Global Options... > R Markdown > Show equations and Image previews (Never)
+## Disable inline preview of the Markdown file:
+### In RStudio, Tools > Global Options... > R Markdown > Show equations and Image previews (Never)
 
-```{r Chunk setup, include=FALSE}
+## Setup chunk defaults
+```{r Chunk setup}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Display packages to install
 ```{r Packages and Installers}
 # Install RTools
 # https://cran.rstudio.com/bin/windows/Rtools/
@@ -37,6 +40,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #install.packages("tinytex")
 ```
 
+## Show libraries to include
 ```{r Library Includes}
 # The list of libraries to include
 library(stats)
@@ -45,6 +49,7 @@ library(dplyr)
 library(rstudioapi)
 ```
 
+## Get the currenet working directory so we can run this file from anywhere. This will allow this script to work from RStudio or from the command line
 ```{r Get current directory}
 # Get the directory so we can run this from anywhere
 # Get the script directory from R when running in R
@@ -61,6 +66,7 @@ if(!exists("script.dir"))
 (script.dir)
 ```
 
+## Set the working directory based on where the script is
 ```{r Working Directory and Data setup}
 # Set my working directory
 # There is a "data" folder here with the files and the script
@@ -75,6 +81,7 @@ if(dir.exists(paste(getwd(),"/data", sep = "")) == FALSE) {
 }
 ```
 
+## Some example help commands
 ```{r View some command info}
 # See some help command info (examples)
 #??read.csv
@@ -83,6 +90,8 @@ if(dir.exists(paste(getwd(),"/data", sep = "")) == FALSE) {
 ```
 
 # Part 1
+
+## Introduction
 
 ### In this set we will build a data set using filters and `if` and `diff` statements. We will then answer some questions using plots and a pivot table report. We will then write a function to house our approach in case we would like to run the same analysis on other data sets.
 
@@ -106,7 +115,7 @@ str(HO2) # review the structure of the data so far
 
 ## Questions
 
-## 1. What is the nature of HO2 returns? We want to reflect the ups and downs of price movements, something of prime interest to management. First, we calculate percentage changes as log returns. Our interest is in the ups and downs. To look at that we use `if` and `else` statements to define a new column called `direction`. We will build a data frame to house this analysis.
+### 1. What is the nature of HO2 returns? We want to reflect the ups and downs of price movements, something of prime interest to management. First, we calculate percentage changes as log returns. Our interest is in the ups and downs. To look at that we use `if` and `else` statements to define a new column called `direction`. We will build a data frame to house this analysis.
 
 ```{r Construct Data frame}
 # Construct expanded data frame
@@ -128,7 +137,7 @@ hist(price) # histogram the price
 axis(side=1, at=seq(0,4,1), labels=seq(0,4,1))
 ``` 
 
-### We can plot with the `ggplot2` package. In the `ggplot` statements we use `aes`, "aesthetics", to pick `x` (horizontal) and `y` (vertical) axes. Use `group =1` to ensure that all data is plotted. The added (`+`) `geom_line` is the geometrical method that builds the line plot.
+#### We can plot with the `ggplot2` package. In the `ggplot` statements we use `aes`, "aesthetics", to pick `x` (horizontal) and `y` (vertical) axes. Use `group =1` to ensure that all data is plotted. The added (`+`) `geom_line` is the geometrical method that builds the line plot.
 
 ```{r Plot line graph}
 library(ggplot2)
@@ -136,7 +145,7 @@ p <- ggplot(HO2.df, aes(x = date, y = return, group = 1)) + geom_line(colour = "
 p
 ``` 
 
-### Let's try a bar graph of the absolute value of price rates. We use `geom_bar` to build this picture.
+#### Let's try a bar graph of the absolute value of price rates. We use `geom_bar` to build this picture.
 
 ```{r Plot bar graph}
 # library(ggplot2)
@@ -144,14 +153,14 @@ p <- ggplot(HO2.df, aes(x = date, y = size, group = 1)) + geom_bar(stat = "ident
 p
 ```
 
-### Now let's build an overlay of `return` on `size`.
+#### Now let's build an overlay of `return` on `size`.
 
 ```{r Plot line and bar graph}
 p <- ggplot(HO2.df, aes(date, size)) + geom_bar(stat = "identity", colour = "darkorange") + geom_line(data = HO2.df, aes(date, return), colour = "blue")
 p
 ```
 
-## 2. Let's dig deeper and compute mean, standard deviation, etc. Load the `data_moments()` function. Run the function using the `HO2.df$return` subset of the data and write a `knitr::kable()` report.
+### 2. Let's dig deeper and compute mean, standard deviation, etc. Load the `data_moments()` function. Run the function using the `HO2.df$return` subset of the data and write a `knitr::kable()` report.
 
 ```{r Create data_moments function and run it}
 # Load the data_moments() function
@@ -175,7 +184,7 @@ answer <- round(answer, 4)
 knitr::kable(answer)
 ```
 
-## 3. Let's pivot `size` and `return` on `direction`. What is the average and range of returns by direction? How often might we view positive or negative movements in HO2?
+### 3. Let's pivot `size` and `return` on `direction`. What is the average and range of returns by direction? How often might we view positive or negative movements in HO2?
 
 ```{r Create pivot table}
 # Counting
@@ -204,6 +213,8 @@ print(xtable(answer), digits = 2)
 ```
 
 # Part 2
+
+## Introduction
 
 ### We will use the data from Part 1 to investigate the distribution of returns we generated. This will entail fitting the data to some parametric distributions as well as 
 
@@ -260,14 +271,14 @@ return(output.list)
 }
 ```
 
-### Test `HO2_movement()` with data and display results in a table with `2` decimal places.
+#### Test `HO2_movement()` with data and display results in a table with `2` decimal places.
 ```{r Run HO2_movement function}
 knitr::kable(HO2_movement(file = "data/nyhh02.csv")$table, digits = 2)
 ```
 
-### Morale: more work today (build the function) means less work tomorrow (write yet another report).
+#### Morale: more work today (build the function) means less work tomorrow (write yet another report).
 
-## 3. Suppose we wanted to simulate future movements in HO2 returns. What distribution might we use to run those scenarios? Here, let's use the `MASS` package's `fitdistr()` function to find the optimal fit of the HO2 data to a parametric distribution. We will use the `gamma` distribution to simulate future heating oil \#2 price scenarios.
+### 3. Suppose we wanted to simulate future movements in HO2 returns. What distribution might we use to run those scenarios? Here, let's use the `MASS` package's `fitdistr()` function to find the optimal fit of the HO2 data to a parametric distribution. We will use the `gamma` distribution to simulate future heating oil \#2 price scenarios.
 
 ```{r Observe the distribution}
 library(MASS)
@@ -282,9 +293,9 @@ fit.gamma.down <- fitdistr(-HO2.data[HO2.data$direction == "down", "return"], "g
 fit.gamma.down
 ```
 
-## Conclusion
+# Conclusion
 
-### Skills and Tools
+## Skills and Tools
 
 The following methods & packages in R were used to explore the data;
 1. We used "if" and "else" statements to define a new column called "direction" and then created a data frame to house this analysis.
@@ -296,8 +307,8 @@ The following methods & packages in R were used to explore the data;
 7. We used the MASS package to find the optimal fit of the HO2 data
 8. We also used our statistical analysis methods to summarize and draw conclusions from the data
 
-### Data Insights
+## Data Insights
 We can see from the summary statistics that our data is highly skewed with most of the extreme data below the median. The kurtosis helps us determine that our data is heavily tailed in the negative returns.  If we look at all the data that we observed there are only 279 instances where there was no change in direction which indicates that heating oil is a volatile commodity.  We can see from the graphs that there is extreme volatility in both the early 1990’s and 2000.  The extreme fluctuation in the early 1990’s was due to the invasion of Kuwait followed by the Gulf War which created a major supply shock that led to a sharp increase in price of oil.  In 2000 the high fluctuation may have been due to a decision by OPEC members to curb production in 1999 to reverse the preceding years decline in prices. 
 
-### Business Remarks
+## Business Remarks
 We used a model that fit the gamma distribution which allows for the skew and the heavy tail that is in our data set.  This model is especially useful for time-sensitive material.  To help combat our exposure of variable costs we would need to put a procedure in place that requires upper managements approval when there are costs rise above our tolerable rate of 3.6.  
