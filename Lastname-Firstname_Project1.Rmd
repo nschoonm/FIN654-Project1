@@ -15,6 +15,8 @@ output:
 # Setup
 ## Using RMD from: https://github.com/wgfoote/fin-alytics/blob/master/RMD/PR01-Rstartup-HO2.Rmd
 
+## Our code is on github at: https://github.com/nschoonm/FIN654-Project1
+
 ## Disable inline preview of the Markdown file:
 ### In RStudio, Tools > Global Options... > R Markdown > Show equations and Image previews (Never)
 
