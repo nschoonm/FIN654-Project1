@@ -7,8 +7,8 @@ author:
 - Nicolas Schoonmaker
 date: "1/25/2020"
 output:
-  word_document: default
   pdf_document: default
+  word_document: default
   html_document: default
 ---
 
@@ -21,11 +21,25 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r Packages}
+```{r Packages and Installers}
+# Install RTools
+# https://cran.rstudio.com/bin/windows/Rtools/
+#
+# Install Tinytex
+# tinytex::install_tinytex()
+#
+# Restart R Studio
+#
 # Install packages
 #install.packages("xtable")
 #install.packages("dplyr")
 #install.packages("rstudioapi")
+#install.packages("tinytex")
+```
+
+```{r Library Includes}
+# The list of libraries to include
+library(stats)
 library(xtable)
 library(dplyr)
 library(rstudioapi)
@@ -62,10 +76,10 @@ if(dir.exists(paste(getwd(),"/data", sep = "")) == FALSE) {
 ```
 
 ```{r View some command info}
-# See some help command info
-??read.csv
-??head
-??na.omit
+# See some help command info (examples)
+#??read.csv
+#??head
+#??na.omit
 ```
 
 # Part 1
@@ -172,7 +186,7 @@ table(HO2.df$return == 0)
 # Pivoting
 library(dplyr)
 ## 1: filter to those houses with fairly high prices
-# pivot.table <-  filter(HO2.df, size > 0.5*max(size))
+# pivot.table <- dplyr::filter(HO2.df, size > 0.5*max(size))
 ## 2: set up data frame for by-group processing
 pivot.table <-  group_by(HO2.df, direction)
 ## 3: calculate the summary metrics
@@ -230,7 +244,7 @@ HO2_movement <- function(file = "data/nyhh02.csv", caption = "Heating Oil No. 2:
   HO2.df <- na.omit(data.frame(date = date, price = price, return = return, size = size, direction = direction)) # clean up data frame by omitting NAs
   require(dplyr)
   ## 1: filter if necessary
-  # pivot.table <-  filter(HO2.df, size > 0.5*max(size))
+  # pivot.table <- dplyr::filter(HO2.df, size > 0.5*max(size))
   ## 2: set up data frame for by-group processing
   pivot.table <-  group_by(HO2.df, direction)
   ## 3: calculate the summary metrics
