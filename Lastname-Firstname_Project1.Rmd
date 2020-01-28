@@ -297,7 +297,8 @@ fit.gamma.down
 
 ## Skills and Tools
 
-The following methods & packages in R were used to explore the data;
+The following methods & packages in R were used to explore the data:
+
 1. We used "if" and "else" statements to define a new column called "direction" and then created a data frame to house this analysis.
 2. We used the ggplot package to plot our data so that we could visualize the size and returns
 3. We used the data moments function to find the standard deviation, mean, skewness and kurtosis
@@ -307,8 +308,72 @@ The following methods & packages in R were used to explore the data;
 7. We used the MASS package to find the optimal fit of the HO2 data
 8. We also used our statistical analysis methods to summarize and draw conclusions from the data
 
+The specific functions used where:
+
+1. read.csv
+  + Reads a file in table format and creates a data frame from it, with cases corresponding to lines and variables to fields in the file. read.csv and read.csv2 are identical to read.table except for the defaults. They are intended for reading ‘comma separated value’ files (‘.csv’).
+2. head
+  + Returns the first or last parts of a vector, matrix, table, data frame or function. Since head() and tail() are generic functions, they may also have been extended to other classes.
+3. tail
+  + Returns the first (last) n rows when n >= 0 or all but the last (first) n rows when n < 0.
+4. na.omit
+  + Returns the object with incomplete cases removed.
+5. str
+  + Compactly display the internal structure of an R object, a diagnostic function and an alternative to summary 
+6. as.numeric(diff(log(HO2$DHOILNYH))) * 100
+  + Used to determine the Euler value
+7. data.frame
+  + Creates data frames, tightly coupled collections of variables which share many of the properties of matrices and of lists, used as the fundamental data structure by most of R's modeling software.
+8. ggplot
+  + Initializes a ggplot object. It can be used to declare the input data frame for a graphic and to specify the set of plot aesthetics intended to be common throughout all subsequent layers unless specifically overridden.
+9. aes
+  + Aesthetic mappings describe how variables in the data are mapped to visual properties (aesthetics) of geoms.
+10. geom_line
+  + Connects observations in order of the variable on the x axis. 
+11. geom_bar
+  + Makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights).
+12. mean
+  + Generic function for the (trimmed) arithmetic mean.
+13. sd
+  + This function computes the standard deviation of the values in x.
+14. median
+  + Compute the sample median.
+15. skewness
+  + This function computes skewness of given data. In statistics, skewness is a measure of the asymmetry of the probability distribution of a random variable about its mean. In other words, skewness tells you the amount and direction of skew (departure from horizontal symmetry). The skewness value can be positive or negative, or even undefined.
+16. kurtosis
+  + This function computes the estimator of Pearson's measure of kurtosis. Like skewness, kurtosis is a statistical measure that is used to describe the distribution. Whereas skewness differentiates extreme values in one versus the other tail, kurtosis measures extreme values in either tail. Distributions with large kurtosis exhibit tail data exceeding the tails of the normal distribution (e.g., five or more standard deviations from the mean). Distributions with low kurtosis exhibit tail data that are generally less extreme than the tails of the normal distribution.
+17. round
+  + Round rounds the values in its first argument to the specified number of decimal places (default 0).
+18. knitr::kable
+  + This is a very simple table generator. It is simple by design. It is not intended to replace any other R packages for making tables.
+19. dplyr::filter
+  + Choose rows/cases where conditions are true. Unlike base subsetting with [, rows where the condition evaluates to NA are dropped.
+20. group_by
+  + Takes an existing tbl and converts it into a grouped tbl where operations are performed "by group".
+21. length
+  + Get or set the length of vectors (including lists) and factors, and of any other R object for which a method has been defined.
+22. summarise
+  + Create one or more scalar variables summarizing the variables of an existing tbl. Tbls with groups created by group_by() will result in one row in the output for each group. Tbls with no groups will result in one row.
+23. xtable
+  + Convert an R object to an xtable object, which can then be printed as a LaTeX or HTML table.
+24. quantile
+  + The generic function quantile produces sample quantiles corresponding to the given probabilities. The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
+25. stat_ecdf
+  + The empirical cumulative distribution function (ECDF) provides an alternative visualisation of distribution.
+26. geom_vline
+  + These geoms add reference lines (sometimes called rules) to a plot, either horizontal, vertical, or diagonal (specified by slope and intercept). These are useful for annotating plots.
+27. annotate
+  + This function adds geoms to a plot, but unlike typical a geom function, the properties of the geoms are not mapped from variables of a data frame, but are instead passed in as vectors. This is useful for adding small annotations (such as text labels) or if you have your data in vectors, and for some reason don't want to put them in a data frame.
+28. fitdistr
+  + Maximum-likelihood fitting of univariate distributions, allowing parameters to be held fixed if desired.
+
 ## Data Insights
 We can see from the summary statistics that our data is highly skewed with most of the extreme data below the median. The kurtosis helps us determine that our data is heavily tailed in the negative returns.  If we look at all the data that we observed there are only 279 instances where there was no change in direction which indicates that heating oil is a volatile commodity.  We can see from the graphs that there is extreme volatility in both the early 1990’s and 2000.  The extreme fluctuation in the early 1990’s was due to the invasion of Kuwait followed by the Gulf War which created a major supply shock that led to a sharp increase in price of oil.  In 2000 the high fluctuation may have been due to a decision by OPEC members to curb production in 1999 to reverse the preceding years decline in prices. 
 
 ## Business Remarks
 We used a model that fit the gamma distribution which allows for the skew and the heavy tail that is in our data set.  This model is especially useful for time-sensitive material.  To help combat our exposure of variable costs we would need to put a procedure in place that requires upper managements approval when there are costs rise above our tolerable rate of 3.6.  
+
+## References
+
+1. Skewness - https://en.wikipedia.org/wiki/Skewness
+2. Kurtosis - https://www.investopedia.com/terms/k/kurtosis.asp
