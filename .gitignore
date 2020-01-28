@@ -46,3 +46,6 @@ vignettes/*.pdf
 
 # DOCX
 *.docx
+
+# TEX
+*.tex
