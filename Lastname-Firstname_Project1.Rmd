@@ -1,35 +1,57 @@
 ---
 title: "Lastname-Firstname_Project1"
-author: 
-- "Guillermo Delgado"
-- "Katie Guillen"
-- "Leanne Harper"
-- "Nicolas Schoonmaker"
+author:
+- Guillermo Delgado
+- Katie Guillen
+- Leanne Harper
+- Nicolas Schoonmaker
 date: "1/25/2020"
 output:
   pdf_document: default
+  word_document: default
   html_document: default
 ---
 
-# Using RMD from: https://github.com/wgfoote/fin-alytics/blob/master/RMD/PR01-Rstartup-HO2.Rmd
+# Setup
+## Using RMD from: https://github.com/wgfoote/fin-alytics/blob/master/RMD/PR01-Rstartup-HO2.Rmd
 
-# If you want to disable inline preview of the Markdown file:
-## In RStudio, Tools > Global Options... > R Markdown > Show equations and Image previews (Never)
+## Our code is on github at: https://github.com/nschoonm/FIN654-Project1
 
-```{r Chunk setup, include=FALSE}
+## Disable inline preview of the Markdown file:
+### In RStudio, Tools > Global Options... > R Markdown > Show equations and Image previews (Never)
+
+## Setup chunk defaults
+```{r Chunk setup}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r Packages}
+## Display packages to install
+```{r Packages and Installers}
+# Install RTools
+# https://cran.rstudio.com/bin/windows/Rtools/
+#
+# Install Tinytex
+# tinytex::install_tinytex()
+#
+# Restart R Studio
+#
 # Install packages
 #install.packages("xtable")
 #install.packages("dplyr")
 #install.packages("rstudioapi")
+#install.packages("tinytex")
+```
+
+## Show libraries to include
+```{r Library Includes}
+# The list of libraries to include
+library(stats)
 library(xtable)
 library(dplyr)
 library(rstudioapi)
 ```
 
+## Get the currenet working directory so we can run this file from anywhere. This will allow this script to work from RStudio or from the command line
 ```{r Get current directory}
 # Get the directory so we can run this from anywhere
 # Get the script directory from R when running in R
@@ -46,6 +68,7 @@ if(!exists("script.dir"))
 (script.dir)
 ```
 
+## Set the working directory based on where the script is
 ```{r Working Directory and Data setup}
 # Set my working directory
 # There is a "data" folder here with the files and the script
@@ -60,14 +83,17 @@ if(dir.exists(paste(getwd(),"/data", sep = "")) == FALSE) {
 }
 ```
 
+## Some example help commands
 ```{r View some command info}
-# See some help command info
-??read.csv
-??head
-??na.omit
+# See some help command info (examples)
+#??read.csv
+#??head
+#??na.omit
 ```
 
 # Part 1
+
+## Introduction
 
 ### In this set we will build a data set using filters and `if` and `diff` statements. We will then answer some questions using plots and a pivot table report. We will then write a function to house our approach in case we would like to run the same analysis on other data sets.
 
@@ -91,7 +117,7 @@ str(HO2) # review the structure of the data so far
 
 ## Questions
 
-## 1. What is the nature of HO2 returns? We want to reflect the ups and downs of price movements, something of prime interest to management. First, we calculate percentage changes as log returns. Our interest is in the ups and downs. To look at that we use `if` and `else` statements to define a new column called `direction`. We will build a data frame to house this analysis.
+### 1. What is the nature of HO2 returns? We want to reflect the ups and downs of price movements, something of prime interest to management. First, we calculate percentage changes as log returns. Our interest is in the ups and downs. To look at that we use `if` and `else` statements to define a new column called `direction`. We will build a data frame to house this analysis.
 
 ```{r Construct Data frame}
 # Construct expanded data frame
@@ -113,7 +139,7 @@ hist(price) # histogram the price
 axis(side=1, at=seq(0,4,1), labels=seq(0,4,1))
 ``` 
 
-### We can plot with the `ggplot2` package. In the `ggplot` statements we use `aes`, "aesthetics", to pick `x` (horizontal) and `y` (vertical) axes. Use `group =1` to ensure that all data is plotted. The added (`+`) `geom_line` is the geometrical method that builds the line plot.
+#### We can plot with the `ggplot2` package. In the `ggplot` statements we use `aes`, "aesthetics", to pick `x` (horizontal) and `y` (vertical) axes. Use `group =1` to ensure that all data is plotted. The added (`+`) `geom_line` is the geometrical method that builds the line plot.
 
 ```{r Plot line graph}
 library(ggplot2)
@@ -121,7 +147,7 @@ p <- ggplot(HO2.df, aes(x = date, y = return, group = 1)) + geom_line(colour = "
 p
 ``` 
 
-### Let's try a bar graph of the absolute value of price rates. We use `geom_bar` to build this picture.
+#### Let's try a bar graph of the absolute value of price rates. We use `geom_bar` to build this picture.
 
 ```{r Plot bar graph}
 # library(ggplot2)
@@ -129,14 +155,14 @@ p <- ggplot(HO2.df, aes(x = date, y = size, group = 1)) + geom_bar(stat = "ident
 p
 ```
 
-### Now let's build an overlay of `return` on `size`.
+#### Now let's build an overlay of `return` on `size`.
 
 ```{r Plot line and bar graph}
 p <- ggplot(HO2.df, aes(date, size)) + geom_bar(stat = "identity", colour = "darkorange") + geom_line(data = HO2.df, aes(date, return), colour = "blue")
 p
 ```
 
-## 2. Let's dig deeper and compute mean, standard deviation, etc. Load the `data_moments()` function. Run the function using the `HO2.df$return` subset of the data and write a `knitr::kable()` report.
+### 2. Let's dig deeper and compute mean, standard deviation, etc. Load the `data_moments()` function. Run the function using the `HO2.df$return` subset of the data and write a `knitr::kable()` report.
 
 ```{r Create data_moments function and run it}
 # Load the data_moments() function
@@ -160,7 +186,7 @@ answer <- round(answer, 4)
 knitr::kable(answer)
 ```
 
-## 3. Let's pivot `size` and `return` on `direction`. What is the average and range of returns by direction? How often might we view positive or negative movements in HO2?
+### 3. Let's pivot `size` and `return` on `direction`. What is the average and range of returns by direction? How often might we view positive or negative movements in HO2?
 
 ```{r Create pivot table}
 # Counting
@@ -171,7 +197,7 @@ table(HO2.df$return == 0)
 # Pivoting
 library(dplyr)
 ## 1: filter to those houses with fairly high prices
-# pivot.table <-  filter(HO2.df, size > 0.5*max(size))
+# pivot.table <- dplyr::filter(HO2.df, size > 0.5*max(size))
 ## 2: set up data frame for by-group processing
 pivot.table <-  group_by(HO2.df, direction)
 ## 3: calculate the summary metrics
@@ -189,6 +215,8 @@ print(xtable(answer), digits = 2)
 ```
 
 # Part 2
+
+## Introduction
 
 ### We will use the data from Part 1 to investigate the distribution of returns we generated. This will entail fitting the data to some parametric distributions as well as 
 
@@ -229,7 +257,7 @@ HO2_movement <- function(file = "data/nyhh02.csv", caption = "Heating Oil No. 2:
   HO2.df <- na.omit(data.frame(date = date, price = price, return = return, size = size, direction = direction)) # clean up data frame by omitting NAs
   require(dplyr)
   ## 1: filter if necessary
-  # pivot.table <-  filter(HO2.df, size > 0.5*max(size))
+  # pivot.table <- dplyr::filter(HO2.df, size > 0.5*max(size))
   ## 2: set up data frame for by-group processing
   pivot.table <-  group_by(HO2.df, direction)
   ## 3: calculate the summary metrics
@@ -245,14 +273,14 @@ return(output.list)
 }
 ```
 
-### Test `HO2_movement()` with data and display results in a table with `2` decimal places.
+#### Test `HO2_movement()` with data and display results in a table with `2` decimal places.
 ```{r Run HO2_movement function}
 knitr::kable(HO2_movement(file = "data/nyhh02.csv")$table, digits = 2)
 ```
 
-### Morale: more work today (build the function) means less work tomorrow (write yet another report).
+#### Morale: more work today (build the function) means less work tomorrow (write yet another report).
 
-## 3. Suppose we wanted to simulate future movements in HO2 returns. What distribution might we use to run those scenarios? Here, let's use the `MASS` package's `fitdistr()` function to find the optimal fit of the HO2 data to a parametric distribution. We will use the `gamma` distribution to simulate future heating oil \#2 price scenarios.
+### 3. Suppose we wanted to simulate future movements in HO2 returns. What distribution might we use to run those scenarios? Here, let's use the `MASS` package's `fitdistr()` function to find the optimal fit of the HO2 data to a parametric distribution. We will use the `gamma` distribution to simulate future heating oil \#2 price scenarios.
 
 ```{r Observe the distribution}
 library(MASS)
@@ -267,11 +295,12 @@ fit.gamma.down <- fitdistr(-HO2.data[HO2.data$direction == "down", "return"], "g
 fit.gamma.down
 ```
 
-## Conclusion
+# Conclusion
 
-### Skills and Tools
+## Skills and Tools
 
-The following methods & packages in R were used to explore the data;
+The following methods & packages in R were used to explore the data:
+
 1. We used "if" and "else" statements to define a new column called "direction" and then created a data frame to house this analysis.
 2. We used the ggplot package to plot our data so that we could visualize the size and returns
 3. We used the data moments function to find the standard deviation, mean, skewness and kurtosis
@@ -281,8 +310,72 @@ The following methods & packages in R were used to explore the data;
 7. We used the MASS package to find the optimal fit of the HO2 data
 8. We also used our statistical analysis methods to summarize and draw conclusions from the data
 
-### Data Insights
+The specific functions used where:
+
+1. read.csv
+  + Reads a file in table format and creates a data frame from it, with cases corresponding to lines and variables to fields in the file. read.csv and read.csv2 are identical to read.table except for the defaults. They are intended for reading ‘comma separated value’ files (‘.csv’).
+2. head
+  + Returns the first or last parts of a vector, matrix, table, data frame or function. Since head() and tail() are generic functions, they may also have been extended to other classes.
+3. tail
+  + Returns the first (last) n rows when n >= 0 or all but the last (first) n rows when n < 0.
+4. na.omit
+  + Returns the object with incomplete cases removed.
+5. str
+  + Compactly display the internal structure of an R object, a diagnostic function and an alternative to summary 
+6. as.numeric(diff(log(HO2$DHOILNYH))) * 100
+  + Used to determine the Euler value
+7. data.frame
+  + Creates data frames, tightly coupled collections of variables which share many of the properties of matrices and of lists, used as the fundamental data structure by most of R's modeling software.
+8. ggplot
+  + Initializes a ggplot object. It can be used to declare the input data frame for a graphic and to specify the set of plot aesthetics intended to be common throughout all subsequent layers unless specifically overridden.
+9. aes
+  + Aesthetic mappings describe how variables in the data are mapped to visual properties (aesthetics) of geoms.
+10. geom_line
+  + Connects observations in order of the variable on the x axis. 
+11. geom_bar
+  + Makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights).
+12. mean
+  + Generic function for the (trimmed) arithmetic mean.
+13. sd
+  + This function computes the standard deviation of the values in x.
+14. median
+  + Compute the sample median.
+15. skewness
+  + This function computes skewness of given data. In statistics, skewness is a measure of the asymmetry of the probability distribution of a random variable about its mean. In other words, skewness tells you the amount and direction of skew (departure from horizontal symmetry). The skewness value can be positive or negative, or even undefined.
+16. kurtosis
+  + This function computes the estimator of Pearson's measure of kurtosis. Like skewness, kurtosis is a statistical measure that is used to describe the distribution. Whereas skewness differentiates extreme values in one versus the other tail, kurtosis measures extreme values in either tail. Distributions with large kurtosis exhibit tail data exceeding the tails of the normal distribution (e.g., five or more standard deviations from the mean). Distributions with low kurtosis exhibit tail data that are generally less extreme than the tails of the normal distribution.
+17. round
+  + Round rounds the values in its first argument to the specified number of decimal places (default 0).
+18. knitr::kable
+  + This is a very simple table generator. It is simple by design. It is not intended to replace any other R packages for making tables.
+19. dplyr::filter
+  + Choose rows/cases where conditions are true. Unlike base subsetting with [, rows where the condition evaluates to NA are dropped.
+20. group_by
+  + Takes an existing tbl and converts it into a grouped tbl where operations are performed "by group".
+21. length
+  + Get or set the length of vectors (including lists) and factors, and of any other R object for which a method has been defined.
+22. summarise
+  + Create one or more scalar variables summarizing the variables of an existing tbl. Tbls with groups created by group_by() will result in one row in the output for each group. Tbls with no groups will result in one row.
+23. xtable
+  + Convert an R object to an xtable object, which can then be printed as a LaTeX or HTML table.
+24. quantile
+  + The generic function quantile produces sample quantiles corresponding to the given probabilities. The smallest observation corresponds to a probability of 0 and the largest to a probability of 1.
+25. stat_ecdf
+  + The empirical cumulative distribution function (ECDF) provides an alternative visualisation of distribution.
+26. geom_vline
+  + These geoms add reference lines (sometimes called rules) to a plot, either horizontal, vertical, or diagonal (specified by slope and intercept). These are useful for annotating plots.
+27. annotate
+  + This function adds geoms to a plot, but unlike typical a geom function, the properties of the geoms are not mapped from variables of a data frame, but are instead passed in as vectors. This is useful for adding small annotations (such as text labels) or if you have your data in vectors, and for some reason don't want to put them in a data frame.
+28. fitdistr
+  + Maximum-likelihood fitting of univariate distributions, allowing parameters to be held fixed if desired.
+
+## Data Insights
 We can see from the summary statistics that our data is highly skewed with most of the extreme data below the median. The kurtosis helps us determine that our data is heavily tailed in the negative returns.  If we look at all the data that we observed there are only 279 instances where there was no change in direction which indicates that heating oil is a volatile commodity.  We can see from the graphs that there is extreme volatility in both the early 1990’s and 2000.  The extreme fluctuation in the early 1990’s was due to the invasion of Kuwait followed by the Gulf War which created a major supply shock that led to a sharp increase in price of oil.  In 2000 the high fluctuation may have been due to a decision by OPEC members to curb production in 1999 to reverse the preceding years decline in prices. 
 
-### Business Remarks
-We used a model that fit the gamma distribution which allows for the skew and the heavy tail that is in our data set.  This model is especially useful for time-sensitive material.  To help combat our exposure of variable costs we would need to put a procedure in place that requires upper managements approval when there are costs rise above our tolerable rate of 3.6.  
+## Business Remarks
+We used a model that fit the gamma distribution which allows for the skew and the heavy tail that is in our data set.  This model is especially useful for time-sensitive material.  To help combat our exposure of variable costs we would need to put a procedure in place that requires upper managements approval when there are costs rise above our tolerable rate of 3.6.
+
+## References
+
+1. Skewness - https://en.wikipedia.org/wiki/Skewness
+2. Kurtosis - https://www.investopedia.com/terms/k/kurtosis.asp
