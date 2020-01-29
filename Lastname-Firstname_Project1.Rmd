@@ -22,6 +22,7 @@ output:
 
 ## Setup chunk defaults
 ```{r Chunk setup}
+# Echo the output
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -155,9 +156,10 @@ p <- ggplot(HO2.df, aes(x = date, y = size, group = 1)) + geom_bar(stat = "ident
 p
 ```
 
-#### Now let's build an overlay of `return` on `size`.
+#### Now let's build an overlay of `return` on `size` below.
 
-```{r Plot line and bar graph}
+
+```{r Plot line and bar graph, fig.align='center'}
 p <- ggplot(HO2.df, aes(date, size)) + geom_bar(stat = "identity", colour = "darkorange") + geom_line(data = HO2.df, aes(date, return), colour = "blue")
 p
 ```
