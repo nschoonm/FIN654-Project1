@@ -22,6 +22,7 @@ output:
 
 ## Setup chunk defaults
 ```{r Chunk setup}
+require(knitr)
 # Echo the output
 knitr::opts_chunk$set(echo = TRUE)
 ```
