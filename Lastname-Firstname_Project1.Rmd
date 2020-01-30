@@ -224,7 +224,7 @@ table(HO2.df$return == 0)
 # Pivoting
 library(dplyr)
 ## 1: filter to those houses with fairly high prices
-# pivot.table <- dplyr::filter(HO2.df, size > 0.5*max(size))
+pivot.table <- dplyr::filter(HO2.df, size > 0.5*max(size))
 ## 2: set up data frame for by-group processing
 pivot.table <-  group_by(HO2.df, direction)
 ## 3: calculate the summary metrics
