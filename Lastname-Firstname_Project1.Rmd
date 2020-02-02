@@ -248,7 +248,13 @@ print(xtable(t(pivot.table),
              caption = HO2.caption,
              align=rep("r", 4), 
              table.placement="V"))
+knitr::kable(t(pivot.table), 
+             digits = 2, 
+             caption = HO2.caption,
+             align=rep("r", 4), 
+             table.placement="V")
 print(xtable(answer), digits = 2)
+knitr::kable(answer, digits = 2)
 ```
 
 # Part 2
