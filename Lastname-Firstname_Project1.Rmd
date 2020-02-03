@@ -357,18 +357,18 @@ HO2.data <- HO2_movement(file = "data/nyhh02.csv",
                          caption = "HO2 NYH")$df
 str(HO2.data)
 fit.gamma.up <- fitdistr(HO2.data[HO2.data$direction == "up", "return"],
-                         "gamma", hessian = TRUE)
+                         "gamma", hessian = TRUE, lower=c(-1, 0))
 fit.gamma.up
 # a problem here is all observations = 0
 # fit.t.same <- fitdistr(HO2.data[HO2.data$direction == "same", "return"],
 #                       "gamma", hessian = TRUE) 
 fit.t.down <- fitdistr(HO2.data[HO2.data$direction == "down", "return"],
-                       "t", hessian = TRUE)
+                       "t", hessian = TRUE, lower=c(-1, 0))
 fit.t.down
 # gamma distribution defined for data >= 0
 fit.gamma.down <- 
   fitdistr(-HO2.data[HO2.data$direction == "down", "return"],
-           "gamma", hessian = TRUE) 
+           "gamma", hessian = TRUE )
 fit.gamma.down
 ```
 
